@@ -2,7 +2,7 @@
 // Created by Cobin Grosjean on 4/5/26.
 //
 
-#include "../NimBLE-Arduino/NimBLEDevice.h"
+#include "NimBLEDevice.h"
 
 class btMacropad {
 private:

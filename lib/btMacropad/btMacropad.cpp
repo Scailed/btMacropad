@@ -3,7 +3,7 @@
 //
 
 #include "btMacropad.h"
-#include "../NimBLE-Arduino/NimBLEDevice.h"
+#include "NimBLEDevice.h"
 
 btMacropad::btMacropad() {
 

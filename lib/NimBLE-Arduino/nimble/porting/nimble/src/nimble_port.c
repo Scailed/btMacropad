@@ -159,7 +159,6 @@ esp_err_t esp_nimble_deinit(void)
 esp_err_t nimble_port_init(void)
 {
     esp_err_t ret;
-    printf("Line 162");
 
 #if false // Arduino disable
 #if CONFIG_IDF_TARGET_ESP32 && CONFIG_BT_CONTROLLER_ENABLED
