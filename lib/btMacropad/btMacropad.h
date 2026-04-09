@@ -12,7 +12,7 @@ private:
     NimBLEService *_pBatteryService;
     NimBLEService *_pDeviceInformationService;
     NimBLECharacteristic *_pProtocolMode;
-    NimBLECharacteristic *_pReportInputType;
+    NimBLECharacteristic *_pInputReport;
     NimBLECharacteristic *_pReportMap;
     NimBLECharacteristic *_pHIDInformation;
     NimBLECharacteristic *_pHIDControlPoint;
@@ -24,7 +24,7 @@ public:
     btMacropad();
     void begin();
     void end();
-    size_t press(int key);
-    size_t release(int key);
-    void setName(std::string deviceName);
+    void press(uint8_t modifiers[], uint8_t numModifiers, uint8_t keys[], uint8_t numKeys);
+    bool releaseAll();
+    void sendKeyReport(uint8_t keyReport[]);
 };

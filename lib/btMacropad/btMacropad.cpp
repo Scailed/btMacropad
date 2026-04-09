@@ -4,6 +4,7 @@
 
 #include "btMacropad.h"
 #include "NimBLEDevice.h"
+#include "reportMap.h"
 
 btMacropad::btMacropad() {
 
@@ -25,6 +26,8 @@ btMacropad::btMacropad() {
  * - Battery Service: https://www.bluetooth.com/specifications/specs/battery-service/
  * - Device Information Service: https://www.bluetooth.com/specifications/specs/device-information-service/
  * - Assigned Numbers: https://www.bluetooth.com/specifications/assigned-numbers/
+ * - HID Device Class Definition: https://www.usb.org/document-library/device-class-definition-hid-111
+ * - HID Usage Tables: https://www.usb.org/sites/default/files/hut1_6.pdf
  *
  * @usage
  * macropad.begin();
@@ -39,8 +42,9 @@ void btMacropad::begin() {
     _pHIDService = _pServer->createService("1812");
     _pProtocolMode = _pHIDService->createCharacteristic("2A4E", NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE_NR);
     _pProtocolMode->setValue(01); // Set to Report Protocol Mode
-    _pReportInputType = _pHIDService->createCharacteristic("2A4D", NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
+    _pInputReport = _pHIDService->createCharacteristic("2A4D", NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
     _pReportMap = _pHIDService->createCharacteristic("2A4B", NIMBLE_PROPERTY::READ);
+    _pReportMap->setValue(REPORT_MAP);
     _pHIDInformation = _pHIDService->createCharacteristic("2A4A", NIMBLE_PROPERTY::READ);
     _pHIDControlPoint = _pHIDService->createCharacteristic("2A4C", NIMBLE_PROPERTY::WRITE_NR);
 
@@ -63,13 +67,34 @@ void btMacropad::begin() {
 void btMacropad::end() {
 }
 
-size_t btMacropad::press(int key) {
+// TODO: Test the functionality of this function
+// TODO: Document this function
+void btMacropad::press(uint8_t modifiers[], uint8_t numModifiers, uint8_t keys[], uint8_t numKeys) {
+    uint8_t report[8] = {0};
+
+    for (int i = 0; i < numModifiers; i++) {
+        report[0] |= (1 << (modifiers[i] - 0xE0));
+    }
+
+    // Reserved Bit
+    report[1] = 0x00;
+
+    for (int i = 0; i < numKeys; i++) {
+        report[i + 2] = keys[i];
+    }
+
+    sendKeyReport(report);
+}
+
+bool btMacropad::releaseAll() {
+    uint8_t report[8] = {0};
+
+    sendKeyReport(report);
     return 0;
 }
 
-size_t btMacropad::release(int key) {
-    return 0;
-}
 
-void btMacropad::setName(std::string deviceName) {
+void btMacropad::sendKeyReport(uint8_t keyReport[]) {
+    _pInputReport->setValue(keyReport, 8);
+    _pInputReport->notify();
 }
