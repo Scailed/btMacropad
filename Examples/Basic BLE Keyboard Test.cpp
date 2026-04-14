@@ -1,51 +1,35 @@
-//
-// Created by Cobin Grosjean on 4/5/26.
-//
-#include <Arduino.h>
-/**
- * This example turns the ESP32 into a NimBLE keyboard that writes the words, presses Enter, presses a media key and then Ctrl+Alt+Delete
- */
-#include <../lib/NimBleKeyboard/NimBleKeyboard.h>
+// This example sends the keycode for "z" when key0 is pressed
 
-BleKeyboard bleKeyboard("NimBLE Keyboard");
+#include <Arduino.h>
+#include <../lib/btMacropad/btMacropad.h>
+#include <../lib/Macropad/src/Macropad.h>
+#include <../lib/btMacropad/keyCodes.h>
+
+int row0 = D10;
+int col0 = D0;
+
+uint8_t modifiers[] = {0};
+uint8_t key[] = {Z};
+
+Key key0(row0, col0);
+btMacropad macropad;
+
 
 void setup() {
     Serial.begin(115200);
-    delay(1000);
-    Serial.println("Starting NimBLE work!");
-    bleKeyboard.begin();
+    delay(3000);
+    macropad.begin();
+    key0.begin();
+    Serial.println("Ready");
 }
 
+
 void loop() {
-    if(bleKeyboard.isConnected()) {
-        Serial.println("Sending 'Hello world'...");
-        bleKeyboard.print("Hello world");
-
-        delay(1000);
-
-        Serial.println("Sending Enter key...");
-        bleKeyboard.write(KEY_RETURN);
-
-        delay(1000);
-
-        Serial.println("Sending Play/Pause media key...");
-        bleKeyboard.write(KEY_MEDIA_PLAY_PAUSE);
-
-        delay(1000);
-
-        //
-        // Below is an example of pressing multiple keyboard modifiers
-        // which by default is commented out.
-        //
-        /* Serial.println("Sending Ctrl+Alt+Delete...");
-         bleKeyboard.press(KEY_LEFT_CTRL);
-         bleKeyboard.press(KEY_LEFT_ALT);
-         bleKeyboard.press(KEY_DELETE);
-         delay(100);
-         bleKeyboard.releaseAll();
-         */
-
+    if (key0.pressed()) {
+        Serial.println("Pressing z!");
+        macropad.press(modifiers, 1, key, 1);
+        delay(100);
+        Serial.println("Releasing z!");
+        macropad.releaseAll();
     }
-    Serial.println("Waiting 5 seconds...");
-    delay(5000);
 }

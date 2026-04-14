@@ -11,6 +11,7 @@
 #define C 0x06
 #define D 0x07
 #define E 0x08
+// TODO: #define F conflicts with Arduino's F() string macro — consider renaming
 #define F 0x09
 #define G 0x0A
 #define H 0x0B

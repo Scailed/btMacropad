@@ -67,7 +67,7 @@ void btMacropad::begin() {
     _pProtocolMode = _pHIDService->createCharacteristic("2A4E", NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE_NR);
     _pProtocolMode->setValue(01); // Set to Report Protocol Mode
     _pInputReport = _pHIDService->createCharacteristic("2A4D", NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY | NIMBLE_PROPERTY::READ_ENC);
-    _pReportMap = _pHIDService->createCharacteristic("2A4B", NIMBLE_PROPERTY::READ);
+    _pReportMap = _pHIDService->createCharacteristic("2A4B", NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::READ_ENC);
     _pReportMap->setValue(REPORT_MAP, REPORT_MAP_LEN);
     // HID Information: bcdHID=0x0111 (HID 1.11), bCountryCode=0x00, Flags=0x02 (NormallyConnectable)
     _pHIDInformation = _pHIDService->createCharacteristic("2A4A", NIMBLE_PROPERTY::READ);
@@ -77,7 +77,7 @@ void btMacropad::begin() {
     _pHIDControlPoint = _pHIDService->createCharacteristic("2A4C", NIMBLE_PROPERTY::WRITE_NR);
 
     // Report Reference descriptor on Input Report: Report ID=0, Report Type=Input(1)
-    NimBLEDescriptor *pReportRef = _pInputReport->createDescriptor("2908", NIMBLE_PROPERTY::READ);
+    NimBLEDescriptor *pReportRef = _pInputReport->createDescriptor("2908", NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::READ_ENC);
     uint8_t reportRef[] = {0x00, 0x01};
     pReportRef->setValue(reportRef, sizeof(reportRef));
 
