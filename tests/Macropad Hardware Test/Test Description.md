@@ -14,5 +14,5 @@ To verify that each key on the macropad is functioning properly, and is properly
 1. Upload Macropad_Hardware_Test.cpp to the macropad
 1. Connect via BT LE to the macropad with the test device
 1. Open a text editor on the test device
-1. Press each key and ensure that the corresponding *hexadecimal* digit corresponding to that key's ID is typed
+1. Press each key and ensure that the corresponding *hexadecimal* digit corresponding to that key's ID is typed (key0 should type "0", key10 should type "A")
 1. Repeat for every other device

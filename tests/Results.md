@@ -3,4 +3,7 @@
   - [x] Macbook
   - [x] Android
   - [x] iPad
-- 
+- [x] Macropad Hardware Test
+  - [x] Macbook
+  - [x] Android
+  - [x] iPad
