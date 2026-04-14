@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build & Flash Commands
 
-This project uses [PlatformIO](https://platformio.org/) targeting the **Seeed XIAO ESP32-C6**.
+This project uses [PlatformIO](https://platformio.org/) targeting the **Seeed XIAO ESP32-C6**, run via the PlatformIO plugin inside **CLion**.
 
 ```bash
 # Build
@@ -56,5 +56,10 @@ Pass modifier keycodes (`LEFT_SHIFT`, `LEFT_CONTROL`, etc.) in `modifiers[]` and
 
 ### Bug tracker
 These bugs should be checked off (not deleted) as they are solved
-- [ ] Platformio is having an issue with littleFs, it can't find it at the moment
+- [x] Platformio is having an issue with littleFs, it can't find it at the moment
+  - **Fix:** `/opt/homebrew/Cellar/platformio/6.1.19_1/libexec/bin/python -m pip install littlefs-python`
+- [x] Platformio is having an issue with fatFs, it can't find it at the moment
+  - **Fix:** `/opt/homebrew/Cellar/platformio/6.1.19_1/libexec/bin/python -m pip install fatfs`
+- [x] espressif32 platform version 6.13.0 drops Arduino framework support for seeed_xiao_esp32c6
+  - **Fix:** Switch to the pioarduino fork (`platform = https://github.com/pioarduino/platform-espressif32.git#develop`) and add a custom `boards/seeed_xiao_esp32c6.json` with `"variant": "XIAO_ESP32C6"` in the `build` section.
 - [ ] Apple devices don't respond at all to the macropad's reports
