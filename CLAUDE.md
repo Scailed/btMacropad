@@ -20,7 +20,7 @@ pio device monitor
 pio run --target upload && pio device monitor
 ```
 
-There are no automated tests — functionality is verified on hardware.
+There are no automated tests — functionality is verified on hardware by Grosjean.
 
 ## Architecture
 
@@ -33,7 +33,7 @@ The project implements a **Bluetooth LE macropad** (HID keyboard over BLE GATT) 
 - `reportMap.h` — The HID report descriptor. Defines an 8-byte report: 1 byte modifiers, 1 byte reserved, 6 bytes keycodes.
 - `keyCodes.h` — USB HID keycodes as `#define` constants, named following ZMK conventions. Modifier keys (`LEFT_SHIFT`, etc.) range `0xE0–0xE7` and are passed in the `modifiers[]` array. All other keys go in the `keys[]` array.
 
-**`lib/Macropad/src/`** — Hardware abstraction
+**`lib/Macropad/src/`** — Hardware abstraction for the physical keys of the macropad.
 - `Macropad.cpp/.h` — `Key` class for a single key in a row/column matrix. `begin()` sets pin modes (`INPUT_PULLDOWN` for row, `OUTPUT` for col). `read()` drives the column HIGH, samples the row, applies debounce, and drives column LOW. `pressed()`, `released()`, and `held()` are convenience wrappers.
 
 **`src/main.cpp`** — Entry point. Instantiates `Key` and `btMacropad`, calls `begin()` on both in `setup()`, then polls `key0.pressed()` in `loop()`.
@@ -53,3 +53,8 @@ The project implements a **Bluetooth LE macropad** (HID keyboard over BLE GATT) 
 - Bytes 2–7: up to 6 keycodes
 
 Pass modifier keycodes (`LEFT_SHIFT`, `LEFT_CONTROL`, etc.) in `modifiers[]` and regular keycodes in `keys[]`.
+
+### Bug tracker
+These bugs should be checked off (not deleted) as they are solved
+- [ ] Platformio is having an issue with littleFs, it can't find it at the moment
+- [ ] Apple devices don't respond at all to the macropad's reports
